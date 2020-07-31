@@ -9,8 +9,7 @@ export function compilePatterns({
   exact?: boolean
   useBaseBadWords?: boolean
 }) {
-  words = [...new Set(words.concat(useBaseBadWords ? badWords : []))]
-  return words.map(w => {
+  return [...Array.from(new Set(words.concat(useBaseBadWords ? badWords : [])))].map(w => {
     if (!exact) {
       w = [...w].map(c => charMapping[c] || c).join('')
     }
@@ -49,6 +48,7 @@ export function censor({
   masker?: Function
 }) {
   const againstRegExp = compilePatterns({ words: custom, exact, useBaseBadWords })
+  console.log(againstRegExp)
   return words
     .split(' ')
     .map(w => censorWord({ word: w, against: againstRegExp, masker }))
