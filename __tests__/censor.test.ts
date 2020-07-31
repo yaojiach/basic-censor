@@ -15,16 +15,22 @@ describe('test censorWord', () => {
     const WORD = 'B!tch'
     const MASKED = '*****'
     expect(basicMasker(WORD)).toBe(MASKED)
-  }),
+  })
   test('marksMasker should work', () => {
     const WORD = 'B!tch'
     expect(marksMasker(WORD)).not.toBe(WORD)
+  })
+  test('custom maskers should work', () => {
+    const UNCENSORED = 'B!tch'
+    const CENSORED = '👀👀👀👀👀'
+    const masker = (s: string) => '👀'.repeat(s.length)
+    expect(censorWord({ word: UNCENSORED, masker })).toBe(CENSORED)
   })
   test('censorWord should work', () => {
     const UNCENSORED = 'B!tch'
     const CENSORED = '*****'
 
-    expect(censorWord(UNCENSORED)).toBe(CENSORED)
+    expect(censorWord({ word: UNCENSORED })).toBe(CENSORED)
   })
 })
 
@@ -33,7 +39,6 @@ describe('test censor', () => {
     const UNCENSORED = 'WhOre is B!TCH'
     const CENSORED = '***** is *****'
 
-    expect(censor({words: UNCENSORED})).toBe(CENSORED)
+    expect(censor({ words: UNCENSORED })).toBe(CENSORED)
   })
 })
-

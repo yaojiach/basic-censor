@@ -23,11 +23,15 @@ export const basicMasker = (s: string) => '*'.repeat(s.length)
 export const marksMasker = (s: string, marks = '~!@#$%^&*') =>
   [...Array(s.length)].map(() => marks[Math.floor(Math.random() * s.length)]).join('')
 
-export function censorWord(
-  word: string,
-  against: RegExp[] = compilePatterns({ words: badWords }),
-  masker: Function = basicMasker
-) {
+export function censorWord({
+  word,
+  against = compilePatterns({ words: badWords }),
+  masker = basicMasker
+}: {
+  word: string
+  against?: RegExp[]
+  masker?: Function
+}) {
   return against.some(r => word.toLowerCase().match(r)) ? masker(word) : word
 }
 
@@ -47,6 +51,6 @@ export function censor({
   const againstRegExp = compilePatterns({ words: custom, exact, useBaseBadWords })
   return words
     .split(' ')
-    .map(w => censorWord(w, againstRegExp, masker))
+    .map(w => censorWord({ word: w, against: againstRegExp, masker }))
     .join(' ')
 }
