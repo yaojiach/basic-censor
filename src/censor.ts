@@ -48,7 +48,6 @@ export function censor({
   masker?: Function
 }) {
   const againstRegExp = compilePatterns({ words: custom, exact, useBaseBadWords })
-  console.log(againstRegExp)
   return words
     .split(' ')
     .map(w => censorWord({ word: w, against: againstRegExp, masker }))
